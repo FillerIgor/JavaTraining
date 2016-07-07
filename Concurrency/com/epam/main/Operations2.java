@@ -1,9 +1,9 @@
 package com.epam.main;
 
+import javafx.concurrent.ScheduledService;
+
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 
 /**
  * Created by Igor_Filler on 7/7/2016.
@@ -21,9 +21,16 @@ public class Operations2 {
     }
 
     public static void main(String[] args) {
-        Operations2 operations2 = new Operations2();
+        ScheduledExecutorService scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
+        final Operations2 operations2 = new Operations2();
         try {
             operations2.transfer();
+            scheduledExecutorService.scheduleAtFixedRate(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("Test schedule executor service");
+                }
+            },2000,3000,TimeUnit.MILLISECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
