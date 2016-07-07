@@ -44,17 +44,20 @@ public class Operations {
                       logger.error("Transfer!");
                       a1.withdrow(amount);
                       a2.deposit(amount);
+                      Thread.sleep(2000);
                   }finally {
                       a2.getLock().unlock();
                   }
                 }else {
-                    logger.error("Sorry!");
+                    logger.error("Sorry! a2");
+                    a2.incFailCounter();
                 }
             } finally {
                 a1.getLock().unlock();
             }
         } else {
-            logger.error("Sorry!");
+            logger.error("Sorry! a1");
+            a1.incFailCounter();
         }
 /*        synchronized (a1) {
             Thread.sleep(1000);
@@ -66,6 +69,7 @@ public class Operations {
                 a2.deposit(amount);
             }
         }*/
+        logger.error("failCounter a1:"+a1.getFailCounter()+" a2:"+ a2.getFailCounter());
     }
 
     private static class InsufficientFundsException extends Throwable {

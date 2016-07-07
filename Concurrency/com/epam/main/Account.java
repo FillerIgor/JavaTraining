@@ -1,5 +1,6 @@
 package com.epam.main;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -10,6 +11,9 @@ public class Account {
     private Lock lock;
 
     private int balance;
+
+    //private int failCounter;
+    private AtomicInteger failCounter = new AtomicInteger();
 
     public Lock getLock() {
         return lock;
@@ -27,6 +31,12 @@ public class Account {
         this.balance = balance;
     }
 
+    public void incFailCounter() {
+        //failCounter++;
+        //failCounter.addAndGet(1);
+        failCounter.incrementAndGet();
+    }
+
     public void withdrow(int amount) {
         balance -= amount;
     }
@@ -41,5 +51,13 @@ public class Account {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public AtomicInteger getFailCounter() {
+        return failCounter;
+    }
+
+    public void setFailCounter(AtomicInteger failCounter) {
+        this.failCounter = failCounter;
     }
 }
